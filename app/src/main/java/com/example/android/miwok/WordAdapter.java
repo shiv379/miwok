@@ -1,14 +1,20 @@
 package com.example.android.miwok;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 //import android.widget.ImageView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -18,8 +24,11 @@ import java.util.ArrayList;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
-    public WordAdapter(Activity context, ArrayList<Word> words){
+    private int mActivityColor;
+
+    public WordAdapter(Activity context, ArrayList<Word> words, int activityColor){
         super(context, 0, words);
+        mActivityColor = activityColor;
     }
 
     @NonNull
@@ -28,18 +37,30 @@ public class WordAdapter extends ArrayAdapter<Word> {
         // Check if the existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
         if(listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
+                listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_item, parent, false);
         }
 
         // Get the {@link Word} object located at this position in the list
         Word word = getItem(position);
 
+        LinearLayout textLinearLayout = (LinearLayout) listItemView.findViewById(R.id.textLinearLayout);
+        int color = ContextCompat.getColor(getContext(), mActivityColor);
+        textLinearLayout.setBackgroundColor(color);
+
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.default_text_view);
         defaultTextView.setText(word.getDefaultTranslation());
 
         TextView miwokTextView = (TextView) listItemView.findViewById(R.id.miwok_text_view);
         miwokTextView.setText(word.getMiwokTranslation());
+
+        ImageView wordImageView = (ImageView) listItemView.findViewById(R.id.image);
+        if(word.hasImage()) {
+            wordImageView.setImageResource(word.getImageResourceId());
+            wordImageView.setVisibility(View.VISIBLE);
+        } else {
+            wordImageView.setVisibility(View.GONE);
+        }
 
         // Return the whole list item layout (containing 2 TextViews)
         // so that it can be shown in the ListView
