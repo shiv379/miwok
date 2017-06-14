@@ -26,4 +26,9 @@
             tools:text="default text"/>
 
     </LinearLayout>
+
+    <TextView
+        style="@style/PlayIcon"
+        android:id="@+id/play_icon"
+        android:text="&gt;"/>
 </LinearLayout>
