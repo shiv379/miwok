@@ -27,6 +27,12 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener(){
+        @Override
+        public void onCompletion(MediaPlayer mp){
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +60,24 @@ public class NumbersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mediaPlayer = MediaPlayer.create(NumbersActivity.this, words.get(i).getSoundFileResourceId());
-                mediaPlayer.start();
+                 releaseMediaPlayer();
+                 mediaPlayer = MediaPlayer.create(NumbersActivity.this, words.get(i).getSoundFileResourceId());
+                 mediaPlayer.start();
+                 mediaPlayer.setOnCompletionListener(mCompletionListener);
              }
-         });
+        });
+    }
+
+    private void releaseMediaPlayer(){
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Override
     protected void onStop(){
-        mediaPlayer.release();
-        mediaPlayer = null;
+        releaseMediaPlayer();
         super.onStop();
     }
 }
