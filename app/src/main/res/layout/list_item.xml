@@ -27,8 +27,8 @@
 
     </LinearLayout>
 
-    <TextView
+    <ImageView
         style="@style/PlayIcon"
         android:id="@+id/play_icon"
-        android:text="&gt;"/>
+        app:srcCompat="@drawable/play_arrow" />
 </LinearLayout>

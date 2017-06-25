@@ -40,7 +40,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         // Get the {@link Word} object located at this position in the list
         Word word = getItem(position);
 
-        TextView playIcon = (TextView) listItemView.findViewById(R.id.play_icon);
+        ImageView playIcon = (ImageView) listItemView.findViewById(R.id.play_icon);
         LinearLayout textLinearLayout = (LinearLayout) listItemView.findViewById(R.id.textLinearLayout);
         int color = ContextCompat.getColor(getContext(), mActivityColor);
         textLinearLayout.setBackgroundColor(color);
